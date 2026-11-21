@@ -1,4 +1,4 @@
-# PeakCut — установка на Windows без прав администратора.
+﻿# PeakCut — установка на Windows без прав администратора.
 # Запуск:  powershell -NoProfile -ExecutionPolicy Bypass -File install.ps1
 # Параметры: -Folder C:\peakcut  -NoModels (не скачивать модели речи)  -NoShortcut
 param(
@@ -9,7 +9,7 @@ param(
 
 $ErrorActionPreference = "Stop"
 $ProgressPreference = "SilentlyContinue"
-$RepoZip = "__REPO_ZIP__"
+$RepoZip = "https://codeload.github.com/DjackVorobeu/PeakCut/zip/refs/heads/main"
 
 function Say($text) { Write-Host "  $text" }
 function Step($text) { Write-Host ""; Write-Host "== $text" -ForegroundColor White }
