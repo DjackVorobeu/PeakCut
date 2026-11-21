@@ -212,6 +212,11 @@ def explain(e) -> str:
     if (status == "404" and "model" in low) or (not status and ("404" in text or "not found" in low or "does not exist" in low or "unknown model" in low or "not_found" in low)) \
             or (status and "is not found for api version" in low):
         return f"{label()} doesn't know the model \"{name}\". Open Settings, AI, press Find models and pick one from the list."
+    if "location" in low and ("not supported" in low or "unsupported" in low or "failed_precondition" in low):
+        # Google answers this for whole countries: no model will work from there, so say so plainly.
+        return (f"{label()} is not available from this country: it answers \"User location is not supported\", "
+                f"whatever model is picked. Use another service under Settings, AI (OpenRouter, Groq, OpenAI, "
+                f"Claude), or a local model through Ollama. A proxy or VPN pointed at a supported country also works.")
     if "429" in text or "quota" in low or "rate limit" in low or "exhausted" in low:
         return f"{label()} says the key has hit its limit or has no credit left. Check the account with {label()}, or try again later."
     if "connect" in low or "timed out" in low or "timeout" in low or "getaddrinfo" in low or "refused" in low or "nodename" in low or "servname" in low or "nameresolutionerror" in low or "name resolution" in low:
