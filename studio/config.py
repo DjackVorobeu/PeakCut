@@ -140,6 +140,12 @@ ASR_MODEL_AR_URL = env("PEAKCUT_ASR_MODEL_AR_URL") or (
     f"3ae1fba562d68ce5299ea32659e5973cf464e034/{ASR_MODEL_AR}.tar.bz2")
 ASR_MODEL_AR_SHA256 = (env("PEAKCUT_ASR_MODEL_AR_SHA256")
                        or "033ac7d886b3a4f04f66f3b8959456d7f4aa28ad4dae9da96a9cc716448efff9").strip().lower()
+# Russian: Sber's GigaAM v2, converted to a NeMo transducer for sherpa-onnx. Downloaded only when asked for, from the
+# model collection the English one comes from, so it is checked and unpacked the same way.
+ASR_MODEL_RU = env("PEAKCUT_ASR_MODEL_RU", "sherpa-onnx-nemo-transducer-giga-am-v2-russian-2025-04-19")
+ASR_MODEL_RU_URL = env("PEAKCUT_ASR_MODEL_RU_URL") or (
+    "https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/"
+    f"{ASR_MODEL_RU}.tar.bz2")
 DATABASE_URL = env("DATABASE_URL") or f"sqlite:///{(DATA_DIR / 'peakcut.db').as_posix()}"
 # Commercials and "be right back" screens are stitched into streams. A clip taken from one is worthless, so those
 # seconds can be found and left out. It is off by default: it reads the whole video once, which is not free, and

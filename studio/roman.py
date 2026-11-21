@@ -35,19 +35,20 @@ def has_hindi(text: str) -> bool:
 
 
 def needs_roman(text: str) -> bool:
-    """Is this in a script that captions should show in Roman letters instead (Hindi, Urdu, Arabic, Russian-style,
-    Greek or Korean letters)?"""
+    """Is this in a script that captions should show in Roman letters instead (Hindi, Urdu, Arabic, Greek or
+    Korean letters)? Cyrillic is drawn as it is: the caption fonts have it."""
     text = text or ""
     return bool(DEVANAGARI.search(text) or OTHER_SCRIPT.search(text) or MORE_SCRIPTS.search(text))
 
 
 def drawable(text: str) -> bool:
-    """Can the caption fonts draw this? They have Latin letters (with accents), digits and punctuation only."""
-    return not any(ch.isalpha() and not (ord(ch) < 0x250 or 0x1E00 <= ord(ch) <= 0x1EFF) for ch in text or "")
+    """Can the caption fonts draw this? They have Latin letters (with accents), Cyrillic, digits and punctuation."""
+    return not any(ch.isalpha() and not (ord(ch) < 0x250 or 0x1E00 <= ord(ch) <= 0x1EFF
+                                         or 0x0400 <= ord(ch) <= 0x04FF) for ch in text or "")
 
 
-# ---------------------------------------------------------------- Russian-style (Cyrillic), Greek and Korean letters
-MORE_SCRIPTS = re.compile(r"[\u0370-\u03FF\u0400-\u04FF\uAC00-\uD7A3]")
+# ---------------------------------------------------------------- Greek and Korean letters (Cyrillic is left alone)
+MORE_SCRIPTS = re.compile(r"[\u0370-\u03FF\uAC00-\uD7A3]")
 _CYR = {"а": "a", "б": "b", "в": "v", "г": "g", "д": "d", "е": "e", "ё": "yo", "ж": "zh", "з": "z", "и": "i", "й": "y",
         "к": "k", "л": "l", "м": "m", "н": "n", "о": "o", "п": "p", "р": "r", "с": "s", "т": "t", "у": "u", "ф": "f",
         "х": "kh", "ц": "ts", "ч": "ch", "ш": "sh", "щ": "shch", "ъ": "", "ы": "y", "ь": "", "э": "e", "ю": "yu",

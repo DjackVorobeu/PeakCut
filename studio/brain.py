@@ -62,9 +62,7 @@ Rules:
 - description: one or two sentences.
 - hashtags: 5 tags without the # sign.
 - highlight_words: 3 to 6 single words spoken in the clip that carry the punch.
-- Write hook, title, description, hashtags and highlight_words in English. If the video is in Hindi or Urdu,
-  you may write them the way people type Hindi and Urdu in Roman letters (Hinglish: "yaar ye kya hai"), never
-  in Devanagari or Urdu script. For any other language, write them in English.
+{writing}
 - category: one of funny, fail, clutch, rage, shock, take, story, other.
 - reason: one short sentence on why it works.
 {language}
@@ -79,6 +77,13 @@ Never put links, @handles, phone numbers, or "visit / buy / subscribe" calls in 
 
 
 ARABIC_SCRIPT = re.compile(r"[؀-ۿ]")
+CYRILLIC_SCRIPT = re.compile(r"[Ѐ-ӿ]")
+WRITE_ENGLISH = ("- Write hook, title, description, hashtags and highlight_words in English. If the video is in "
+                 "Hindi or Urdu, you may write them the way people type Hindi and Urdu in Roman letters "
+                 '(Hinglish: "yaar ye kya hai"), never in Devanagari or Urdu script. For any other language, '
+                 "write them in English.")
+WRITE_RUSSIAN = ("- The video is in Russian: write hook, title, description, hashtags and highlight_words in "
+                 "Russian, in Cyrillic letters, the way a Russian creator would word them. Numbers as digits.")
 ARABIC_NOTE = ("- The transcript is in Arabic letters. Speakers often mix in English words, which the speech model "
                "writes in Arabic letters (\"سبسكرايب\" is \"subscribe\", \"أوكي\" is \"okay\"): read them as the English "
                "words they are.\n")
@@ -87,7 +92,8 @@ ARABIC_NOTE = ("- The transcript is in Arabic letters. Speakers often mix in Eng
 def _rules(min_len, max_len, transcript: str) -> str:
     """The rules and the transcript, with a note about English words in Arabic letters when the speech is in Arabic script."""
     note = ARABIC_NOTE if len(ARABIC_SCRIPT.findall(transcript)) > 40 else ""
-    return RULES.format(min_len=min_len, max_len=max_len, transcript=transcript, language=note)
+    writing = WRITE_RUSSIAN if len(CYRILLIC_SCRIPT.findall(transcript)) > 40 else WRITE_ENGLISH
+    return RULES.format(min_len=min_len, max_len=max_len, transcript=transcript, language=note, writing=writing)
 
 
 CATEGORIES = {"funny", "fail", "clutch", "rage", "shock", "take", "story", "other"}
@@ -154,7 +160,7 @@ def _tidy(c, s, e, game=None):
 
 def _same_word(old, new):
     """A caption fix may respell a word or turn it into digits. It may not swap in different words."""
-    a, b = re.sub(r"[^a-z0-9]", "", old.lower()), re.sub(r"[^a-z0-9]", "", new.lower())
+    a, b = re.sub(r"[^\w]", "", old.lower()), re.sub(r"[^\w]", "", new.lower())
     return (not b) or (any(ch.isdigit() for ch in b) and len(new) <= 12) or difflib.SequenceMatcher(None, a, b).ratio() >= 0.45
 
 
@@ -541,7 +547,7 @@ def judge_signals(z, chat, start, now, unit="messages", timeout=None):
 
 FIX_SCHEMA = {"type": "ARRAY", "items": {"type": "STRING"}}
 # Languages whose captions keep the words that were said: English as it is, Hindi and Urdu in Roman letters.
-KEEP_LANGS = ("en", "hi", "ur")
+KEEP_LANGS = ("en", "hi", "ur", "ru")
 
 
 def needs_translation(lang: str) -> bool:

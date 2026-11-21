@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -827,13 +827,13 @@ dialog[open]{animation:fadein .16s ease}
 <div class="app" id="app">
   <aside class="side" aria-label="Sidebar">
     <div class="side-head"><img class="logo" src="/brand/logo-light.svg" alt="PeakCut"><img class="mark" src="/brand/favicon.svg" alt="PeakCut">
-      <button class="icon-btn collapse" data-act="collapse" id="collapseBtn" aria-label="Collapse sidebar"></button></div>
+      <button class="icon-btn collapse" data-act="collapse" id="collapseBtn" aria-label="Свернуть меню"></button></div>
     <nav class="nav" id="nav" aria-label="Main"></nav>
     <div class="side-foot" id="foot"></div>
   </aside>
   <div class="scrim" data-act="menu"></div>
   <main id="main">
-    <header class="topbar"><button class="icon-btn menu" data-act="menu" id="menuBtn" aria-label="Open menu"></button>
+    <header class="topbar"><button class="icon-btn menu" data-act="menu" id="menuBtn" aria-label="Открыть меню"></button>
       <span id="tpic"></span><div class="titles"><h1 id="title"></h1><p id="subtitle"></p></div><nav class="utabs" id="utabs" role="tablist" aria-label="Creator sections"></nav><div class="row" id="actions"></div></header>
     <div id="vbanner"></div>
     <div id="heroSlot"></div>
@@ -961,8 +961,8 @@ function startTour() {
      sel: "#foot .ai-card", side: 1, dock: "top", chips: [["bolt", "AI", 1], ["chart", "See usage"]]},
     {t: "Your account and alerts", x: "The bell tells you when clips are ready or a recording ends. Your name opens Settings, where you connect the accounts you post to.",
      sel: "#foot .me", side: 1, dock: "top", chips: [["bell", "Notifications", 1], ["cog", "Settings"], ["plug", "Connect accounts"]]},
-    {t: "You're ready to clip", x: "Everything you make here is private to your account. Paste your first link and press Make clips.",
-     chips: [["link", "Paste a link"], ["scissors", "Make clips", 1]]}];
+    {t: "Можно резать клипы", x: "Всё, что вы здесь делаете, видно только вам. Вставьте первую ссылку и нажмите «Сделать клипы».",
+     chips: [["link", "Вставить ссылку"], ["scissors", "Сделать клипы", 1]]}];
 
   const root = document.createElement("div"); root.id = "tour";
   root.innerHTML = `<div class="tr-block"></div><div class="tr-dim"></div><div class="tr-ring"></div>
@@ -1075,9 +1075,9 @@ function aiCard() {
   return `<div class="card ai-home"><h2>AI</h2>
     <div class="ai-big">${k.ready ? esc(k.provider || "Ready") : "Not set up"}</div>
     <p class="ai-sub">${k.ready ? esc(k.model || "") : "Clips are picked by loudness until an AI key is added."}</p>
-    <div class="ai-stats"><div><b>${(k.today_calls || 0).toLocaleString()}</b><span>AI calls today</span></div>
-      <div><b>${fmtK(k.today_tokens)}</b><span>Tokens today</span></div></div>
-    <div class="row">${!k.ready && S.status.user?.is_admin ? `<button class="btn primary" data-act="go" data-v="settings" data-tab="ai">${ic("plus")}Add AI key</button>` : ""}<button class="btn" data-act="go" data-v="usage">View usage ${ic("arrowr")}</button></div></div>`;
+    <div class="ai-stats"><div><b>${(k.today_calls || 0).toLocaleString()}</b><span>Вызовов ИИ сегодня</span></div>
+      <div><b>${fmtK(k.today_tokens)}</b><span>Токенов сегодня</span></div></div>
+    <div class="row">${!k.ready && S.status.user?.is_admin ? `<button class="btn primary" data-act="go" data-v="settings" data-tab="ai">${ic("plus")}Добавить ключ ИИ</button>` : ""}<button class="btn" data-act="go" data-v="usage">Расход ИИ ${ic("arrowr")}</button></div></div>`;
 }
 const PLAT = {
   youtube: {name: "YouTube", bg: "#FF0000", fg: "#fff", hint: "https://www.youtube.com/@name",
@@ -1177,7 +1177,7 @@ function openAcct() {
   const on = S.status.accounts !== false;
   p.innerHTML = `${on ? `<div class="who2"><b>${esc(u.name)}</b><span>${esc(u.email)}</span></div>` : ""}
     <button data-act="go" data-v="settings">${ic("cog")}Settings</button><button data-act="go" data-v="usage">${ic("chart")}AI usage</button><button data-act="tour">${ic("play")}Take the tour</button>${S.status.links?.follow ? `<button data-act="feedback">${ic("chat")}Send feedback</button>` : ""}
-    ${on ? `<button class="danger" data-act="logout">${ic("signout")}Sign out</button>` : ""}`;
+    ${on ? `<button class="danger" data-act="logout">${ic("signout")}Выйти</button>` : ""}`;
   openPop(p, $("[data-act=acctmenu]"));
 }
 document.addEventListener("click", e => { if (!e.target.closest(".pop, [data-act=bell], [data-act=acctmenu]")) closePops(); });
@@ -1241,7 +1241,7 @@ function updateHow() {
   d.onclose = () => { if (d.returnValue === "later") { try { localStorage.setItem("peakcut_update_seen", up.latest); } catch {} drawShell(); } };
   d.returnValue = "ok"; d.showModal();
 }
-function greeting() { const h = new Date().getHours(); return h < 12 ? "Good morning" : h < 18 ? "Good afternoon" : "Good evening"; }
+function greeting() { const h = new Date().getHours(); return h < 12 ? "Доброе утро" : h < 18 ? "Добрый день" : "Добрый вечер"; }
 let lastInd = null;
 addEventListener("resize", () => { lastInd = null; const i = $("#utabs .ind"); if (i) i.remove(); moveInd(); });   // where the orange pill was, so it can slide from there to the new tab
 function moveInd() {
@@ -1257,57 +1257,57 @@ function moveInd() {
   lastInd = {x, w};
 }
 function drawShell() {  const nav = (v, icon, label, extra = "") => `<button class="nav-item ${S.view === v ? "on" : ""}" data-act="go" data-v="${esc(v)}" title="${esc(label)}">${icon}<span class="label">${esc(label)}</span>${extra}</button>`;
-  put($("#nav"), nav("overview", navIc("home", "overview"), "Home") +
-    nav("library", navIc("film", "library"), "All videos", (() => { const w = S.jobs.filter(j => ["queued", "running"].includes(j.status)).length;
-      return w ? `<span class="working" title="${w} working now"><i></i>${w} working</span>` : S.jobs.length ? `<span class="count">${S.jobs.length}</span>` : ""; })()) +
-    `<h4><span>Creators</span></h4>` +
+  put($("#nav"), nav("overview", navIc("home", "overview"), "Главная") +
+    nav("library", navIc("film", "library"), "Все видео", (() => { const w = S.jobs.filter(j => ["queued", "running"].includes(j.status)).length;
+      return w ? `<span class="working" title="${w} сейчас в работе"><i></i>${w} в работе</span>` : S.jobs.length ? `<span class="count">${S.jobs.length}</span>` : ""; })()) +
+    `<h4><span>Авторы</span></h4>` +
     S.creators.map(c => nav("c:" + c.id, cav(c), c.name,
-      c.live_job ? `<span class="sb-tag rec" title="Recording now"><i></i>Rec</span>`
-        : liveOn(c).length ? `<span class="sb-tag" title="Live on ${esc(liveOn(c).map(([k]) => PLAT[k].name).join(" and "))}"><i></i>Live</span>` : "")).join("") +
-    `<button class="nav-item" data-act="newcreator" title="New creator">${ic("plusc")}<span class="label">New creator</span></button>` +
-    (S.status.user?.role === "admin" && S.status.accounts !== false ? `<h4><span>Owner</span></h4><a class="nav-item" href="/admin" title="Admin dashboard" style="text-decoration:none">${ic("shield")}<span class="label">Admin dashboard</span></a>` : ""));
+      c.live_job ? `<span class="sb-tag rec" title="Идёт запись"><i></i>Запись</span>`
+        : liveOn(c).length ? `<span class="sb-tag" title="В эфире: ${esc(liveOn(c).map(([k]) => PLAT[k].name).join(", "))}"><i></i>Эфир</span>` : "")).join("") +
+    `<button class="nav-item" data-act="newcreator" title="Новый автор">${ic("plusc")}<span class="label">Новый автор</span></button>` +
+    (S.status.user?.role === "admin" && S.status.accounts !== false ? `<h4><span>Владелец</span></h4><a class="nav-item" href="/admin" title="Панель управления" style="text-decoration:none">${ic("shield")}<span class="label">Панель управления</span></a>` : ""));
   const st = S.status;
   const k = S.status.ai;
-  put($("#foot"), (k ? `<button class="ai-card ${S.view === "usage" ? "on" : ""}" data-act="go" data-v="usage" title="${k.ready ? `AI: ${esc(k.provider || "ready")}, ${k.today_calls || 0} calls today` : "The AI is not set up"}">
-      <span class="ai-ic">${ic("bolt")}</span><span class="ai-tx"><small>AI</small><b>${k.ready ? esc(k.provider || "Ready") : "Not set up"}</b></span>${k.ready ? `<span class="ai-n">${(k.today_calls || 0).toLocaleString()} today</span>` : ""}</button>` : "") +
+  put($("#foot"), (k ? `<button class="ai-card ${S.view === "usage" ? "on" : ""}" data-act="go" data-v="usage" title="${k.ready ? `ИИ: ${esc(k.provider || "готов")}, вызовов сегодня: ${k.today_calls || 0}` : "ИИ не настроен"}">
+      <span class="ai-ic">${ic("bolt")}</span><span class="ai-tx"><small>ИИ</small><b>${k.ready ? esc(k.provider || "Готов") : "Не настроен"}</b></span>${k.ready ? `<span class="ai-n">${(k.today_calls || 0).toLocaleString()} сегодня</span>` : ""}</button>` : "") +
     (S.status.user ? `<div class="me"><button class="me-btn" data-act="acctmenu" aria-haspopup="menu" aria-expanded="false">${meAvatar(S.status.user)}
-      <span class="who">${S.status.accounts === false ? `<b>Settings</b><span>AI key, connected apps</span>` : `<b>${esc(S.status.user.name)}</b><span>${esc(S.status.user.email)}</span>`}</span></button>
-      <button class="icon-btn bell" data-act="bell" title="Notifications" aria-label="Notifications${S.status.unread ? `, ${S.status.unread} new` : ""}" aria-haspopup="dialog">${ic("bell")}${S.status.unread ? `<span class="dotn">${S.status.unread > 9 ? "9+" : S.status.unread}</span>` : ""}</button></div>` : ""));
+      <span class="who">${S.status.accounts === false ? `<b>Настройки</b><span>Ключ ИИ, приложения</span>` : `<b>${esc(S.status.user.name)}</b><span>${esc(S.status.user.email)}</span>`}</span></button>
+      <button class="icon-btn bell" data-act="bell" title="Уведомления" aria-label="Уведомления${S.status.unread ? `, новых: ${S.status.unread}` : ""}" aria-haspopup="dialog">${ic("bell")}${S.status.unread ? `<span class="dotn">${S.status.unread > 9 ? "9+" : S.status.unread}</span>` : ""}</button></div>` : ""));
   const c = creator();
   const recording = S.creators.filter(x => x.live_job).length;
-  let title = {overview:"Home", library:"All videos", settings:"Settings", usage:"AI usage"}[S.view] || "", sub = "", act = "";
-  if (S.view === "usage") sub = "What the AI has been used for.";
-  if (S.view === "overview") sub = `${greeting()}. ${S.creators.length} creator${S.creators.length === 1 ? "" : "s"}${recording ? `, ${recording} recording now` : ""}.`;
-  if (S.view === "library") sub = "Every video and recording, across all creators.";
-  if (S.view === "settings") sub = (S.status.accounts === false ? "Your AI key and connected apps." : "Your profile, security and connected apps.");
+  let title = {overview:"Главная", library:"Все видео", settings:"Настройки", usage:"Расход ИИ"}[S.view] || "", sub = "", act = "";
+  if (S.view === "usage") sub = "На что тратился ИИ.";
+  if (S.view === "overview") sub = `${greeting()}. Авторов: ${S.creators.length}${recording ? `, идёт записей: ${recording}` : ""}.`;
+  if (S.view === "library") sub = "Все видео и записи, по всем авторам.";
+  if (S.view === "settings") sub = (S.status.accounts === false ? "Ключ ИИ и подключённые приложения." : "Профиль, безопасность и подключённые приложения.");
   let pic = "", subHtml = null, tabs = "";
   if (c) {
     title = c.name;
     pic = cav(c);
     subHtml = statusBadge(c);
     const nJobs = S.jobs.filter(j => j.creator === c.id).length, nLog = (c.log || []).length;
-    tabs = [["clips", "Clips", "scissors", nJobs], ["setup", "Setup", "cog", 0], ["activity", "Activity", "clock", nLog]].map(([k, l, i, n]) =>
+    tabs = [["clips", "Клипы", "scissors", nJobs], ["setup", "Настройка", "cog", 0], ["activity", "Журнал", "clock", nLog]].map(([k, l, i, n]) =>
       `<button class="tabbtn ${S.ctab === k ? "on" : ""}" data-act="tab" data-t="${k}" role="tab" aria-selected="${S.ctab === k}">${ic(i)}${l}${n ? `<span class="n">${n > 99 ? "99+" : n}</span>` : ""}</button>`).join("");
-    act = c.live_job ? `<button class="btn danger" data-act="stoplive" data-j="${esc(c.live_job)}">${ic("stop")}Stop recording</button>`
-                     : `<button class="btn primary" data-act="golive"><span class="rdot"></span>${liveOn(c).length ? "Record live stream" : "Start recording"}</button>`;
+    act = c.live_job ? `<button class="btn danger" data-act="stoplive" data-j="${esc(c.live_job)}">${ic("stop")}Остановить запись</button>`
+                     : `<button class="btn primary" data-act="golive"><span class="rdot"></span>${liveOn(c).length ? "Писать стрим" : "Начать запись"}</button>`;
   }
   if (S.view === "overview" || S.view === "library") {
     const L = S.status.links || {};
-    act = (L.repo ? `<a class="btn" href="${esc(L.repo)}" target="_blank" rel="noopener" title="Star PeakCut on GitHub">${ic("github")}<span>Star<span class="long"> on GitHub</span></span></a>` : "")
-        + (L.follow ? `<a class="btn primary" href="${esc(L.follow)}" target="_blank" rel="noopener" title="Follow the maker of PeakCut on Instagram">${ic("instagram")}Follow me</a>` : "");
+    act = (L.repo ? `<a class="btn" href="${esc(L.repo)}" target="_blank" rel="noopener" title="Поставить звезду PeakCut на GitHub">${ic("github")}<span>Звезда<span class="long"> на GitHub</span></span></a>` : "")
+        + (L.follow ? `<a class="btn primary" href="${esc(L.follow)}" target="_blank" rel="noopener" title="Инстаграм автора PeakCut">${ic("instagram")}Подписаться</a>` : "");
   }
   const me = S.status.user;
   const kk = S.status.ai;
   const up = S.status.update;
   let upSeen = "";
   try { upSeen = localStorage.getItem("peakcut_update_seen") || ""; } catch {}
-  const upBar = up && up.latest !== upSeen ? `<div class="vb" role="status">${ic("up")}<span>${up.restart ? "<b>The new version is downloaded.</b> Close PeakCut and start it again to use it." : `A new version of PeakCut is out${up.behind ? `: <b>${up.behind} update${up.behind === 1 ? "" : "s"}</b> since yours` : ""}.`}</span>
-    <button class="btn sm primary" data-act="updhow">${up.restart ? "What's new" : "How to update"}</button><button class="btn sm ghost" data-act="updlater" aria-label="Hide until the next version">Later</button></div>` : "";
-  const toolBar = S.status.no_ffmpeg ? `<div class="vb" role="alert">${ic("warn")}<span><b>PeakCut can't make clips yet: ffmpeg isn't installed on this computer.</b> Open a terminal, run <code>winget install Gyan.FFmpeg</code> (Mac: <code>brew install ffmpeg</code>, Linux: <code>sudo apt install ffmpeg</code>), then close PeakCut and start it again.</span></div>` : "";
-  const aiBar = !toolBar && S.status.ai?.problem && me?.is_admin && S.view !== "settings" ? `<div class="vb" role="status">${ic("warn")}<span><b>The AI isn't answering.</b> ${esc(S.status.ai.problem)} Until then, clips are picked by loudness.</span><button class="btn sm primary" data-act="go" data-v="settings" data-tab="ai">Open AI settings</button></div>` : "";
-  const diskBar = !toolBar && S.status.disk_full && S.view !== "settings" ? `<div class="vb" role="alert">${ic("warn")}<span><b>The drive PeakCut saves to is almost full, so it can't take new videos.</b> Free up space on it, or move PeakCut's folder to a bigger drive.</span>${me?.is_admin ? `<button class="btn sm primary" data-act="go" data-v="settings" data-tab="storage">Open Storage</button>` : ""}</div>` : "";
+  const upBar = up && up.latest !== upSeen ? `<div class="vb" role="status">${ic("up")}<span>${up.restart ? "<b>Новая версия скачана.</b> Закройте PeakCut и запустите заново, чтобы её включить." : `Вышла новая версия PeakCut${up.behind ? `: <b>обновлений: ${up.behind}</b>` : ""}.`}</span>
+    <button class="btn sm primary" data-act="updhow">${up.restart ? "Что нового" : "Как обновить"}</button><button class="btn sm ghost" data-act="updlater" aria-label="Скрыть до следующей версии">Позже</button></div>` : "";
+  const toolBar = S.status.no_ffmpeg ? `<div class="vb" role="alert">${ic("warn")}<span><b>PeakCut пока не может делать клипы: на этом компьютере нет ffmpeg.</b> Откройте терминал, выполните <code>winget install Gyan.FFmpeg</code> (Mac: <code>brew install ffmpeg</code>, Linux: <code>sudo apt install ffmpeg</code>), затем закройте и снова запустите PeakCut.</span></div>` : "";
+  const aiBar = !toolBar && S.status.ai?.problem && me?.is_admin && S.view !== "settings" ? `<div class="vb" role="status">${ic("warn")}<span><b>ИИ не отвечает.</b> ${esc(S.status.ai.problem)} Пока клипы выбираются по громкости.</span><button class="btn sm primary" data-act="go" data-v="settings" data-tab="ai">Открыть настройки ИИ</button></div>` : "";
+  const diskBar = !toolBar && S.status.disk_full && S.view !== "settings" ? `<div class="vb" role="alert">${ic("warn")}<span><b>Диск, на котором PeakCut хранит файлы, почти заполнен, новые видео не принимаются.</b> Освободите место или перенесите папку PeakCut на другой диск.</span>${me?.is_admin ? `<button class="btn sm primary" data-act="go" data-v="settings" data-tab="storage">Открыть хранилище</button>` : ""}</div>` : "";
   put($("#vbanner"), toolBar ? toolBar : diskBar ? diskBar : aiBar ? aiBar : upBar ? upBar : me && me.verified === false ? `<div class="vb" role="status">${ic("warn")}<span>Confirm your email to start clipping. We sent a link to <b>${esc(me.email)}</b>.</span><button class="btn sm" data-act="resendverify">Send a new link</button></div>`
-    : kk && kk.ready === false && S.view !== "usage" ? `<div class="vb" role="status">${ic("bolt")}<span>${me?.is_admin ? "Add your AI key to let the AI pick clips and write titles. Until then, clips are picked by loudness." : "The AI isn't set up on this server yet, so clips are picked by loudness."}</span>${me?.is_admin && S.view !== "settings" ? `<button class="btn sm primary" data-act="go" data-v="settings" data-tab="ai">${ic("plus")}Add AI key</button>` : ""}</div>` : "");
+    : kk && kk.ready === false && S.view !== "usage" ? `<div class="vb" role="status">${ic("bolt")}<span>${me?.is_admin ? "Add your AI key to let the AI pick clips and write titles. Until then, clips are picked by loudness." : "The AI isn't set up on this server yet, so clips are picked by loudness."}</span>${me?.is_admin && S.view !== "settings" ? `<button class="btn sm primary" data-act="go" data-v="settings" data-tab="ai">${ic("plus")}Добавить ключ ИИ</button>` : ""}</div>` : "");
   put($("#tpic"), pic); $("#tpic").classList.toggle("live", !!(c && (c.live_job || liveOn(c).length)));
   put($("#utabs"), tabs); moveInd(); $(".topbar").classList.toggle("tabbed", !!tabs);
   put($("#title"), `<span>${esc(title)}</span>`); put($("#subtitle"), subHtml ?? esc(sub)); put($("#actions"), act);
@@ -1341,8 +1341,8 @@ function go(v, tab, fromHistory) {
   $("#app").classList.remove("open");
   const view = $("#view");
   if (window._gaStop) { window._gaStop(); window._gaStop = null; }
-  $("#heroSlot").innerHTML = v === "overview" ? `<section class="hero"><div class="ga-bg" id="appAscii" aria-hidden="true"></div><h2>What do you want to clip today?</h2>
-      <p>Paste a link or drop in videos. You get captioned shorts back.</p><div id="add"></div></section>` : "";
+  $("#heroSlot").innerHTML = v === "overview" ? `<section class="hero"><div class="ga-bg" id="appAscii" aria-hidden="true"></div><h2>Что нарезаем сегодня?</h2>
+      <p>Вставьте ссылку или перетащите видео. На выходе — вертикальные клипы с субтитрами.</p><div id="add"></div></section>` : "";
   if (v === "overview") view.innerHTML = `<div id="ov"></div>`;
   else if (v === "library") view.innerHTML = `<div id="add"></div><div id="jobs"></div>`;
   else if (v === "settings") view.innerHTML = `<div id="sform"></div>`;
@@ -1370,45 +1370,46 @@ function setTab(t) {
 function drawAdd(variant) {
   const c = creator();
   $("#add").innerHTML = `<form class="composer ${variant === "hero" ? "big" : "compact"}" id="addform">
-    <div class="composer-input">${ic("link")}<input id="url" placeholder="Paste a YouTube, Twitch or Kick video link" autocomplete="off" aria-label="Video link"></div>
+    <div class="composer-input">${ic("link")}<input id="url" placeholder="Вставьте ссылку на видео YouTube, Twitch или Kick" autocomplete="off" aria-label="Ссылка на видео"></div>
     <div class="att" id="att"><div><div class="att-in" id="attIn"></div></div></div>
     <div class="composer-bar">
-      <button type="button" class="chip" data-act="pickfile">${ic("up")}Upload video</button>
-      ${c ? "" : picker("o_creator", "File under creator", [{v:"", label:"No creator", icon:"user"}, ...S.creators.map(x => ({v:x.id, label:x.name, img:x.profile?.pic && x.profile.channel === x.channel ? avatarUrl(x) : ""}))], "")}
-      <button type="button" class="chip" data-act="toggleopts" aria-expanded="false">${ic("sliders")}Options</button>
-      <span class="grow"></span><span class="hint">or drop a video file here</span>
-      <button class="btn primary" id="goBtn">${ic("scissors")}Make clips</button>
+      <button type="button" class="chip" data-act="pickfile">${ic("up")}Загрузить видео</button>
+      ${c ? "" : picker("o_creator", "Автор видео", [{v:"", label:"Без автора", icon:"user"}, ...S.creators.map(x => ({v:x.id, label:x.name, img:x.profile?.pic && x.profile.channel === x.channel ? avatarUrl(x) : ""}))], "")}
+      <button type="button" class="chip" data-act="toggleopts" aria-expanded="false">${ic("sliders")}Настройки</button>
+      <span class="grow"></span><span class="hint">или перетащите файл</span>
+      <button class="btn primary" id="goBtn">${ic("scissors")}Сделать клипы</button>
     </div>
     <div class="composer-opts" inert><div class="og">
       ${langSeg(c?.lang || "en")}
-      <div class="ob wide"><div class="ot">Clips</div><div class="nsteps">
-        ${stepper("o_max", "How many", c?.max_clips ?? 6, 1, 20, 1, "")}
-        ${stepper("o_min", "Shortest", c?.min_len ?? 15, 5, 120, 5, "s")}
-        ${stepper("o_maxlen", "Longest", c?.max_len ?? 60, 10, 180, 5, "s")}
+      <div class="ob wide"><div class="ot">Клипы</div><div class="nsteps">
+        ${stepper("o_max", "Сколько", c?.max_clips ?? 6, 1, 20, 1, "")}
+        ${stepper("o_min", "Минимум", c?.min_len ?? 15, 5, 120, 5, "с")}
+        ${stepper("o_maxlen", "Максимум", c?.max_len ?? 60, 10, 180, 5, "с")}
       </div></div>
-      <div class="ob wide"><label class="f"><span class="ot" style="margin:0">Big text on every clip <span style="font-weight:400">(optional)</span></span>
-        <input id="o_hook" maxlength="60" autocomplete="off" value="${esc(c?.hook_text || "")}" placeholder="Left empty, the AI writes a different one for each clip" aria-label="Big text on every clip"></label></div>
-      <div class="ob wide"><label class="f"><span class="ot" style="margin:0">Description for every clip <span style="font-weight:400">(optional)</span></span>
-        <textarea id="o_desc" rows="3" maxlength="2000" placeholder="Left empty, the AI writes a different one for each clip. Write it once here and it is the description of every clip, exactly as typed." aria-label="Description for every clip">${esc(c?.description_text || "")}</textarea></label></div>
-      <div class="ob"><div class="ot cap-head"><span id="o_style_label">Caption style</span>
-        <label><input type="checkbox" id="o_captions" data-caption-toggle ${c?.captions === false ? "" : "checked"}>Generate captions</label></div>
+      <div class="ob wide"><label class="f"><span class="ot" style="margin:0">Крупный текст на каждом клипе <span style="font-weight:400">(необязательно)</span></span>
+        <input id="o_hook" maxlength="60" autocomplete="off" value="${esc(c?.hook_text || "")}" placeholder="Если пусто, ИИ придумает свой текст для каждого клипа" aria-label="Крупный текст на каждом клипе"></label></div>
+      <div class="ob wide"><label class="f"><span class="ot" style="margin:0">Описание для каждого клипа <span style="font-weight:400">(необязательно)</span></span>
+        <textarea id="o_desc" rows="3" maxlength="2000" placeholder="Если пусто, ИИ придумает своё описание для каждого клипа. Текст, написанный здесь, станет описанием каждого клипа без изменений." aria-label="Описание для каждого клипа">${esc(c?.description_text || "")}</textarea></label></div>
+      <div class="ob"><div class="ot cap-head"><span id="o_style_label">Стиль субтитров</span>
+        <label><input type="checkbox" id="o_captions" data-caption-toggle ${c?.captions === false ? "" : "checked"}>Добавлять субтитры</label></div>
         ${choice("o_style", Object.entries(S.status.styles).map(([k, v]) => ({v:k, label:v, prev:capPrev(k)})), c?.style ?? "bounce", c?.captions === false)}</div>
-      <div class="ob"><div class="ot">Layout</div>${choice("o_layout", Object.entries(S.status.layouts).map(([k, v]) => ({v:k, label:LAYOUT_SHORT[k] || v, title:v, prev:`<span class="lay-prev ${esc(k)}"><span class="ph"><i></i></span></span>`})), c?.layout ?? "blur")}</div>
-      <div class="ob"><div class="ot">Video quality</div><input type="hidden" id="o_quality" value="720"><div class="seg" role="group" aria-label="Video quality">
-        <button type="button" data-seg="o_quality" data-v="720" aria-pressed="true">720p<small>Fast</small></button>
-        <button type="button" data-seg="o_quality" data-v="1080" aria-pressed="false">1080p<small>Sharper, about 2x slower</small></button></div></div>
-      <div class="ob"><div class="ot">Part of the video</div><div class="range">
-        <label>From<input id="o_from" type="number" min="0" placeholder="start" aria-label="From minute">min</label>${ic("arrowr")}
-        <label>To<input id="o_to" type="number" min="0" placeholder="end" aria-label="Up to minute">min</label></div></div>
+      <div class="ob"><div class="ot">Раскладка</div>${choice("o_layout", Object.entries(S.status.layouts).map(([k, v]) => ({v:k, label:LAYOUT_SHORT[k] || v, title:v, prev:`<span class="lay-prev ${esc(k)}"><span class="ph"><i></i></span></span>`})), c?.layout ?? "blur")}</div>
+      <div class="ob"><div class="ot">Качество видео</div><input type="hidden" id="o_quality" value="720"><div class="seg" role="group" aria-label="Качество видео">
+        <button type="button" data-seg="o_quality" data-v="720" aria-pressed="true">720p<small>Быстро</small></button>
+        <button type="button" data-seg="o_quality" data-v="1080" aria-pressed="false">1080p<small>Четче, примерно вдвое медленнее</small></button></div></div>
+      <div class="ob"><div class="ot">Фрагмент видео</div><div class="range">
+        <label>From<input id="o_from" type="number" min="0" placeholder="начало" aria-label="С минуты">мин</label>${ic("arrowr")}
+        <label>To<input id="o_to" type="number" min="0" placeholder="конец" aria-label="По минуту">мин</label></div></div>
     </div></div></form>`;
   drawAtt();
 }
-const LAYOUT_SHORT = {blur:"Blurred fill", zoom:"Zoomed in", crop:"Fill screen", left:"Keep left", right:"Keep right", fit:"Black bars", split:"Split screen", gameplay:"Gameplay + facecam"};
+const LAYOUT_SHORT = {blur:"Размытый фон", zoom:"Приближено", crop:"На весь экран", left:"Левый край", right:"Правый край", fit:"Чёрные поля", split:"Два экрана", gameplay:"Игра + лицо"};
 /* The language spoken in the video picks which speech model writes the transcript. Languages other than English
    need their model downloaded once (Settings → Speech models). */
 const LANG_NATIVE = {ar:"العربية"};
 const speechLangs = () => S.status.speech || {en:{label:"English", state:"ready", size_mb:0}};
-const langName = k => { const m = speechLangs()[k]; return m ? m.label + (LANG_NATIVE[k] ? " · " + LANG_NATIVE[k] : "") : k; };
+const LANG_RU = {en:"Английский", ar:"Арабский", ru:"Русский"};
+const langName = k => { const m = speechLangs()[k]; return m ? (LANG_RU[k] || m.label) + (LANG_NATIVE[k] ? " · " + LANG_NATIVE[k] : "") : k; };
 function langSeg(val) {
   const L = speechLangs(); if (!L[val]) val = "en";
   return `<div class="ob"><div class="ot">Spoken language</div><input type="hidden" id="o_lang" value="${esc(val)}"><div class="seg" role="group" aria-label="Spoken language">${Object.entries(L).map(([k, m]) =>
@@ -1546,11 +1547,11 @@ function drawAtt() {
     if (f && !f.dur) { f.dur = v.duration; const th = v.parentElement; if (!th.querySelector(".du")) th.insertAdjacentHTML("beforeend", `<span class="du">${fmtLen(f.dur)}</span>`); }
   }, {once: true}));
   $("#att")?.classList.toggle("has", !!h);
-  const u = $("#url"); if (u) u.placeholder = A.links.length || A.files.length ? "Paste another link" : "Paste a YouTube, Twitch or Kick video link";
+  const u = $("#url"); if (u) u.placeholder = A.links.length || A.files.length ? "Вставьте ещё одну ссылку" : "Вставьте ссылку на видео YouTube, Twitch или Kick";
   const b = $("#goBtn");
   if (b) { b.disabled = A.busy;
     const k = A.files.length + A.links.filter(l => l.state === "ok").length;
-    b.innerHTML = A.busy ? `${ic("up")}Sending…` : A.queued ? `${ic("clock")}Finding video…` : `${ic("scissors")}Make clips${k > 1 ? ` (${k})` : ""}`; }
+    b.innerHTML = A.busy ? `${ic("up")}Отправка…` : A.queued ? `${ic("clock")}Ищу видео…` : `${ic("scissors")}Сделать клипы${k > 1 ? ` (${k})` : ""}`; }
 }
 
 async function lookUp(u) {
@@ -1667,7 +1668,7 @@ function langNote(A, lang) {
     <b>${esc(sp.label)} needs its speech model first.</b> ${admin ? `It's about ${esc(sp.size_mb)} MB and is downloaded once. Your videos start as soon as it's here.` : `Ask your admin to add ${esc(sp.label)} in Settings → Speech models.`}
     ${onlyYT ? `<br><span class="sub">YouTube videos with their own ${esc(sp.label)} captions also work without it.</span>` : ""}
     <span class="row" style="margin-top:10px">${admin ? `<button type="button" class="btn sm primary" data-act="langdl" data-v="${esc(lang)}">Download and make clips</button>` : ""}
-    ${onlyYT ? `<button type="button" class="btn sm" data-act="langgo" data-v="${esc(lang)}">Make clips with YouTube's captions</button>` : ""}
+    ${onlyYT ? `<button type="button" class="btn sm" data-act="langgo" data-v="${esc(lang)}">Сделать клипы по субтитрам YouTube</button>` : ""}
     <button type="button" class="btn sm ghost" data-act="langno">Cancel</button></span></span></div>`);
 }
 async function makeClips() {
@@ -1681,7 +1682,7 @@ async function makeClips() {
     return;
   }
   if (!canGo(A)) {
-    toast(A.note || "Paste a YouTube, Twitch or Kick video link, or add a video file first.", "bad");
+    toast(A.note || "Сначала вставьте ссылку на видео YouTube, Twitch или Kick либо добавьте файл.", "bad");
     $("#url")?.focus();
     return;
   }
@@ -1845,7 +1846,7 @@ function drawJobs() {
     list = list.filter(j => j.status !== "live"); }
   if (!list.length) {
     root.querySelectorAll("section").forEach(e => e.remove());
-    if (!$(".empty", root)) root.innerHTML = `<div class="empty"><img src="/brand/favicon.svg" alt=""><b>${cid ? "No clips for this creator yet" : "No videos yet"}</b>${cid ? "Start recording their stream, or paste a link to one of their videos above." : "Paste a link above and the studio will find the best moments and turn them into clips."}</div>`;
+    if (!$(".empty", root)) root.innerHTML = `<div class="empty"><img src="/brand/favicon.svg" alt=""><b>${cid ? "У этого автора пока нет клипов" : "Пока нет видео"}</b>${cid ? "Начните запись стрима или вставьте ссылку на одно из его видео выше." : "Вставьте ссылку выше — PeakCut найдёт лучшие моменты и сделает из них клипы."}</div>`;
     return;
   }
   $(".empty", root)?.remove();
@@ -1954,14 +1955,14 @@ function barChart(daily) {
       <rect x="${pl + i * cw}" y="${pt}" width="${cw}" height="${ch}" fill="transparent"/></g>`;
     if (i % 2 === (n - 1) % 2) g += `<text x="${cx}" y="${H - 8}" text-anchor="middle">${i === n - 1 ? "Today" : lab}</text>`;
   });
-  const none = daily.every(d => !d.clips && !d.posted) ? `<text class="none" x="${(W + pl) / 2}" y="${pt + ch / 2}" text-anchor="middle">No clips in the last 14 days yet</text>` : "";
-  return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Clips made and posted per day, last 14 days">${g}${none}</svg>`;
+  const none = daily.every(d => !d.clips && !d.posted) ? `<text class="none" x="${(W + pl) / 2}" y="${pt + ch / 2}" text-anchor="middle">За последние 14 дней клипов ещё нет</text>` : "";
+  return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Клипы и публикации по дням, последние 14 дней">${g}${none}</svg>`;
 }
 function nextSteps(o) {
   const st = [];
-  if (!S.creators.length) st.push(["Add your first creator", "Give each streamer their own workspace, settings and folder.", "newcreator"]);
-  if (!S.jobs.length) st.push(["Make your first clips", "Paste a video link in the box above.", "focusurl"]);
-  if (!S.accounts.length) st.push(["Connect a posting account", "YouTube, Instagram or TikTok, in one click.", "go:settings"]);
+  if (!S.creators.length) st.push(["Добавьте первого автора", "У каждого стримера будет своё место: настройки, папка и аккаунты.", "newcreator"]);
+  if (!S.jobs.length) st.push(["Сделайте первые клипы", "Вставьте ссылку на видео в поле выше.", "focusurl"]);
+  if (!S.accounts.length) st.push(["Подключите аккаунт для публикации", "YouTube, Instagram или TikTok — в один клик.", "go:settings"]);
   if (S.creators.length && !S.creators.some(c => c.auto_watch)) st.push(["Turn on auto-record", "Record by itself whenever a creator goes live.", "go:c:" + S.creators[0].id + ":setup"]);
   return st;
 }
@@ -1970,30 +1971,30 @@ function drawOverview() {
   const sum = k => o.creators.reduce((a, r) => a + r[k], 0);
   const d14 = k => (o.daily || []).reduce((a, d) => a + d[k], 0);
   const state = r => r.state === "recording" ? `<span class="pill live"><span class="dot"></span>Recording</span>` : r.state === "waiting" ? `<span class="pill warn">Waiting for live</span>` : `<span class="pill">Idle</span>`;
-  const pst = p => p.status === "posted" ? `<span class="pill ok">Posted</span>` : p.status === "failed" ? `<span class="pill bad">Failed</span>` : p.status === "posting" ? `<span class="pill warn">Posting now</span>` : `<span class="pill warn">${clock(p.due_at)}</span>`;
+  const pst = p => p.status === "posted" ? `<span class="pill ok">Опубликовано</span>` : p.status === "failed" ? `<span class="pill bad">Ошибка</span>` : p.status === "posting" ? `<span class="pill warn">Публикуется</span>` : `<span class="pill warn">${clock(p.due_at)}</span>`;
   const steps = nextSteps(o);
   put(box, `<div class="tiles">
-      <div class="tile"><i>${ic("radio")}</i><b>${o.recording}</b><span>Recording now</span></div>
-      <div class="tile"><i>${ic("scissors")}</i><b>${sum("clips_today")}</b><span>Clips today</span></div>
-      <div class="tile"><i>${ic("send")}</i><b>${sum("posted_today")}</b><span>Posted today</span></div>
-      <div class="tile"><i>${ic(sum("failed") ? "warn" : "clock")}</i><b>${sum("queued")}</b><span>Waiting to post${sum("failed") ? ` · <span style="color:var(--bad)">${sum("failed")} failed</span>` : ""}</span></div></div>
+      <div class="tile"><i>${ic("radio")}</i><b>${o.recording}</b><span>Сейчас пишется</span></div>
+      <div class="tile"><i>${ic("scissors")}</i><b>${sum("clips_today")}</b><span>Клипов сегодня</span></div>
+      <div class="tile"><i>${ic("send")}</i><b>${sum("posted_today")}</b><span>Опубликовано сегодня</span></div>
+      <div class="tile"><i>${ic(sum("failed") ? "warn" : "clock")}</i><b>${sum("queued")}</b><span>Ждут публикации${sum("failed") ? ` · <span style="color:var(--bad)">с ошибкой: ${sum("failed")}</span>` : ""}</span></div></div>
     <div class="home-grid">
-      <div class="card"><div class="card-head"><div><h2>Activity</h2><p class="sub">Last 14 days</p></div>
-          <div class="kpis"><div class="kpi"><b>${d14("clips")}</b><span>Clips made</span></div><div class="kpi"><b>${d14("posted")}</b><span>Posted</span></div>
-            <div class="kpi"><b>${sum("views").toLocaleString()}</b><span>Views</span></div><div class="kpi"><b>$${sum("earnings").toFixed(2)}</b><span>Est. earnings</span></div></div></div>
-        <div class="legend"><span><i style="background:var(--brand)"></i>Clips made</span><span><i style="background:var(--brand-ink)"></i>Posted</span></div>
+      <div class="card"><div class="card-head"><div><h2>Активность</h2><p class="sub">Последние 14 дней</p></div>
+          <div class="kpis"><div class="kpi"><b>${d14("clips")}</b><span>Клипов сделано</span></div><div class="kpi"><b>${d14("posted")}</b><span>Опубликовано</span></div>
+            <div class="kpi"><b>${sum("views").toLocaleString()}</b><span>Просмотры</span></div><div class="kpi"><b>$${sum("earnings").toFixed(2)}</b><span>Примерный доход</span></div></div></div>
+        <div class="legend"><span><i style="background:var(--brand)"></i>Клипов сделано</span><span><i style="background:var(--brand-ink)"></i>Опубликовано</span></div>
         ${barChart(o.daily || [])}</div>
       ${aiCard()}
     </div>
     ${steps.length ? `<div class="card"><div class="card-head"><div><h2>Next steps</h2><p class="sub">Finish setting up PeakCut</p></div></div>
       <div class="steps across">${steps.map((x, i) => `<button class="step" data-act="step" data-to="${esc(x[2])}"><span class="n">${i + 1}</span><span><b>${esc(x[0])}</b><span class="d">${esc(x[1])}</span></span>${ic("arrowr")}</button>`).join("")}</div></div>` : ""}
     <div class="card"><div class="card-head"><div><h2>Creators</h2><p class="sub">Each creator's status and results</p></div></div>
-      ${o.creators.length ? `<div class="scroll"><table><tr><th>Creator</th><th>Status</th><th>Auto-post</th><th class="num">Clips today</th><th class="num">Posted today</th><th class="num">Waiting</th><th class="num">Failed</th><th class="num">Views</th><th class="num">Est. $</th></tr>
+      ${o.creators.length ? `<div class="scroll"><table><tr><th>Автор</th><th>Статус</th><th>Автопостинг</th><th class="num">Клипов сегодня</th><th class="num">Опубликовано</th><th class="num">Ждут</th><th class="num">Ошибки</th><th class="num">Просмотры</th><th class="num">Примерно $</th></tr>
       ${o.creators.map(r => `<tr><td><a class="lnk" href="#" data-act="go" data-v="c:${esc(r.id)}">${esc(r.name)}</a></td><td>${state(r)}</td><td>${r.autopost ? `<span class="pill ok">On</span>` : `<span class="pill">Off</span>`}</td><td class="num">${r.clips_today} <span class="sub">/ ${r.clips_total}</span></td><td class="num">${r.posted_today} <span class="sub">/ ${r.posted_total}</span></td><td class="num">${r.queued}</td><td class="num">${r.failed}</td><td class="num">${r.views.toLocaleString()}</td><td class="num">${r.earnings.toFixed(2)}</td></tr>`).join("")}</table></div>`
       : `<div class="empty"><img src="/brand/favicon.svg" alt=""><b>No creators yet</b>Add one to give each streamer their own workspace.</div>`}</div>
     <div class="card"><div class="card-head"><div><h2>Post queue</h2><p class="sub">${o.paused ? "Paused. Recording and clipping carry on; nothing is posted." : "Queued clips go out at their scheduled time."}</p></div>
-        <button class="btn ${o.paused ? "primary" : ""}" data-act="pause">${ic(o.paused ? "play" : "pause")}${o.paused ? "Resume posting" : "Pause all posting"}</button></div>
-      ${o.posts.length ? `<div class="scroll"><table class="stack"><tr><th>When</th><th>Clip</th><th>Creator</th><th>Account</th><th class="num">Views</th><th></th></tr>
+        <button class="btn ${o.paused ? "primary" : ""}" data-act="pause">${ic(o.paused ? "play" : "pause")}${o.paused ? "Возобновить публикацию" : "Приостановить публикацию"}</button></div>
+      ${o.posts.length ? `<div class="scroll"><table class="stack"><tr><th>Когда</th><th>Клип</th><th>Автор</th><th>Аккаунт</th><th class="num">Просмотры</th><th></th></tr>
       ${o.posts.map(p => `<tr><td data-l="Status">${pst(p)}</td><td data-l="Clip" class="c-main">${p.url ? `<a class="lnk" href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.title)}</a>` : esc(p.title)}${p.error ? `<div class="err" style="margin:2px 0 0">${esc(p.error)}</div>` : ""}</td><td data-l="Creator">${esc(p.creator_name || "None")}</td><td data-l="Account">${esc(p.account_name)}</td><td data-l="Views" class="num">${p.views ?? "–"}</td>
         <td class="c-act" style="text-align:right">${p.status === "scheduled" ? `<button class="btn sm" data-act="pcancel" data-id="${p.id}">Cancel</button>` : p.status === "failed" ? `<button class="btn sm" data-act="pretry" data-id="${p.id}">Retry</button>` : ""}</td></tr>`).join("")}</table></div>`
       : `<p class="help">Nothing queued or posted yet.</p>`}</div>`);
@@ -2047,100 +2048,100 @@ function drawUsage() {
 /* ============================================================ settings */
 // With sign-in off there is no profile or password to manage. The AI section is for whoever runs the server.
 const setTabs = () => [
-  ...(S.status.user?.is_admin ? [["ai", "AI", "bolt", "Your AI service, model and key"]] : []),
-  ...(S.status.accounts === false ? [] : [["profile", "Profile", "user", "Your name, email and how you sign in"],
-                                          ["security", "Security", "lock", "Password and signing out"]]),
-  ["apps", "Connected apps", "plug", "Where your clips get posted"],
-  ...(S.status.user?.is_admin ? [["speech", "Speech models", "chat", "The languages PeakCut can hear"],
-                                 ["storage", "Storage", "folder", "Where videos and clips are kept"]] : [])];
+  ...(S.status.user?.is_admin ? [["ai", "ИИ", "bolt", "Сервис ИИ, модель и ключ"]] : []),
+  ...(S.status.accounts === false ? [] : [["profile", "Профиль", "user", "Имя, почта и вход"],
+                                          ["security", "Безопасность", "lock", "Пароль и выход"]]),
+  ["apps", "Приложения", "plug", "Куда публикуются клипы"],
+  ...(S.status.user?.is_admin ? [["speech", "Распознавание речи", "chat", "Языки, которые понимает PeakCut"],
+                                 ["storage", "Хранилище", "folder", "Где лежат видео и клипы"]] : [])];
 function aiHints() {
   const k = S.ai, sel = $("#ai_provider"); if (!k || !sel) return;
   const pv = k.providers.find(x => x.id === sel.value) || k.providers[0], same = pv.id === k.provider;
-  $("#ai_key").placeholder = same && k.has_key ? `Saved${k.key_hint ? ", ends in " + k.key_hint : ""}. Paste a new key to replace it` : pv.needs_key ? "Paste your key" : "Not needed";
-  $("#ai_keyhint").innerHTML = pv.key_url ? `${pv.needs_key ? "Get a key at" : "Set it up at"} <a href="${esc(pv.key_url)}" target="_blank" rel="noopener">${esc(pv.key_url.replace("https://", ""))}</a>. The key stays on this server and is never shown again.` : "The key stays on this server and is never shown again.";
-  $("#ai_model").placeholder = pv.example ? "For example " + pv.example : "The model id, exactly as the service names it";
+  $("#ai_key").placeholder = same && k.has_key ? `Ключ сохранён${k.key_hint ? ", заканчивается на " + k.key_hint : ""}. Вставьте новый, чтобы заменить` : pv.needs_key ? "Вставьте ключ" : "Не требуется";
+  $("#ai_keyhint").innerHTML = pv.key_url ? `${pv.needs_key ? "Ключ можно получить на" : "Настройка на"} <a href="${esc(pv.key_url)}" target="_blank" rel="noopener">${esc(pv.key_url.replace("https://", ""))}</a>. Ключ остаётся на этом компьютере и больше не показывается.` : "Ключ остаётся на этом компьютере и больше не показывается.";
+  $("#ai_model").placeholder = pv.example ? "Например " + pv.example : "Идентификатор модели в точности как у сервиса";
   $("#ai_base").placeholder = pv.address || "http://127.0.0.1:1234/v1";
   $("#ai_basewrap").hidden = pv.id !== "custom" && !(same && k.base_url);
 }
 async function drawSettings() {
   const box = $("#sform"); if (!box) return;
   const tab = S.stab || setTabs()[0][0], me = S.status.user;
-  box.innerHTML = `<div class="set-layout"><nav class="set-nav" aria-label="Settings sections">${setTabs().map(([k, l, i, h]) =>
+  box.innerHTML = `<div class="set-layout"><nav class="set-nav" aria-label="Разделы настроек">${setTabs().map(([k, l, i, h]) =>
       `<a href="${pathFor("settings", k)}" class="set-link ${k === tab ? "on" : ""}" data-act="settab" data-k="${k}">${ic(i)}<span><b>${l}</b><small>${h}</small></span></a>`).join("")}</nav>
-    <div class="set-body" id="setbody"><div class="set-load">Loading…</div></div></div>`;
+    <div class="set-body" id="setbody"><div class="set-load">Загрузка…</div></div></div>`;
   const body = $("#setbody");
   try {
     if (tab === "ai") {
       const k = S.ai = await api("/api/ai");
-      body.innerHTML = `<section class="set-sec"><h2>AI</h2><p class="help">PeakCut uses an AI model to pick the moments worth clipping and to write hooks, titles and captions. Use your own key from any of these services. You pay that service directly. Without a key, clips are picked by loudness.</p>
-          <div class="ai-state">${k.ready ? `<span class="pill ok">${ic("check")}Ready</span><span class="sub">${esc(k.label)} · ${esc(k.models[0] || "")}</span>` : `<span class="pill warn">Not set up</span><span class="sub">Choose a service, paste your key and pick a model.</span>`}</div>
+      body.innerHTML = `<section class="set-sec"><h2>AI</h2><p class="help">PeakCut обращается к модели ИИ, чтобы выбрать стоящие моменты и написать хуки, заголовки и субтитры. Используется ваш собственный ключ любого из этих сервисов, и платите вы сервису напрямую. Без ключа клипы выбираются по громкости.</p>
+          <div class="ai-state">${k.ready ? `<span class="pill ok">${ic("check")}Готов</span><span class="sub">${esc(k.label)} · ${esc(k.models[0] || "")}</span>` : `<span class="pill warn">Не настроен</span><span class="sub">Выберите сервис, вставьте ключ и укажите модель.</span>`}</div>
           <div class="ai-form">
-            <label class="f">AI service<select id="ai_provider">${k.providers.map(x => `<option value="${esc(x.id)}" ${x.id === k.provider ? "selected" : ""}>${esc(x.label)}</option>`).join("")}</select></label>
-            <label class="f">Key<input id="ai_key" type="password" autocomplete="off" spellcheck="false"><span class="hint" id="ai_keyhint"></span></label>
-            <label class="f" id="ai_basewrap">Address<input id="ai_base" value="${esc(k.base_url || "")}" spellcheck="false"><span class="hint">Where the service answers. Only needed for a custom service.</span></label>
-            <label class="f">Model<span class="with"><input id="ai_model" list="ai_models" value="${esc(k.models.join(", "))}" spellcheck="false"><button class="btn" type="button" data-act="aimodels">Find models</button></span>
-              <datalist id="ai_models"></datalist><span class="hint">A fast, inexpensive model is the right choice. Add a second one after a comma to fall back on.</span></label>
+            <label class="f">Сервис ИИ<select id="ai_provider">${k.providers.map(x => `<option value="${esc(x.id)}" ${x.id === k.provider ? "selected" : ""}>${esc(x.label)}</option>`).join("")}</select></label>
+            <label class="f">Ключ<input id="ai_key" type="password" autocomplete="off" spellcheck="false"><span class="hint" id="ai_keyhint"></span></label>
+            <label class="f" id="ai_basewrap">Адрес<input id="ai_base" value="${esc(k.base_url || "")}" spellcheck="false"><span class="hint">Куда обращаться. Нужно только для своего сервиса.</span></label>
+            <label class="f">Модель<span class="with"><input id="ai_model" list="ai_models" value="${esc(k.models.join(", "))}" spellcheck="false"><button class="btn" type="button" data-act="aimodels">Найти модели</button></span>
+              <datalist id="ai_models"></datalist><span class="hint">Лучше быстрая и недорогая модель. Вторую можно указать через запятую — она сработает, если первая не ответит.</span></label>
           </div>
-          <div class="row" style="margin-top:20px"><button class="btn primary" data-act="aisave">Save and test</button>${k.ready ? `<button class="btn" data-act="aitest">Test again</button>` : ""}</div></section>`;
+          <div class="row" style="margin-top:20px"><button class="btn primary" data-act="aisave">Сохранить и проверить</button>${k.ready ? `<button class="btn" data-act="aitest">Проверить снова</button>` : ""}</div></section>`;
       aiHints();
     }
     if (tab === "speech") {
       const r = await api("/api/speech");
-      body.innerHTML = `<section class="set-sec"><h2>Speech models</h2><p class="help">PeakCut writes down what is said in a video with a speech model that runs on this computer, one per language. English is always here. Add another language to clip videos spoken in it, then choose that language when adding a video, or on a creator's Setup.</p>
+      body.innerHTML = `<section class="set-sec"><h2>Speech models</h2><p class="help">Речь в видео PeakCut распознаёт моделью, которая работает на этом компьютере — своя для каждого языка. Английский есть всегда. Добавьте язык, чтобы резать видео на нём, и выберите этот язык при добавлении видео или в настройках автора.</p>
         <div class="speech-list">${r.models.map(m => `<div class="speech-row"><div class="speech-info"><b>${esc(langName(m.lang))}</b><span class="sub">${esc(m.size_mb)} MB · ${esc(m.credit)}</span>
-            ${m.state === "downloading" ? `<div class="bar"><i style="width:${m.percent}%"></i></div>` : ""}${m.error && m.state === "missing" ? `<span class="sub" style="color:var(--bad)">The last download failed. Check the internet connection and try again.</span>` : ""}</div>
-          <div class="row">${m.state === "ready" ? `<span class="pill ok">${ic("check")}Ready</span>${m.default ? "" : `<button class="btn sm ghost" data-act="speechdel" data-v="${esc(m.lang)}">${ic("trash")}Remove</button>`}`
-            : m.state === "downloading" ? `<span class="pill">Downloading ${esc(m.percent)}%</span>`
-            : `<button class="btn sm" data-act="speechget" data-v="${esc(m.lang)}">${ic("down")}Download</button>`}</div></div>`).join("")}</div></section>`;
+            ${m.state === "downloading" ? `<div class="bar"><i style="width:${m.percent}%"></i></div>` : ""}${m.error && m.state === "missing" ? `<span class="sub" style="color:var(--bad)">Прошлая загрузка не удалась. Проверьте интернет и попробуйте снова.</span>` : ""}</div>
+          <div class="row">${m.state === "ready" ? `<span class="pill ok">${ic("check")}Готово</span>${m.default ? "" : `<button class="btn sm ghost" data-act="speechdel" data-v="${esc(m.lang)}">${ic("trash")}Удалить</button>`}`
+            : m.state === "downloading" ? `<span class="pill">Загрузка ${esc(m.percent)}%</span>`
+            : `<button class="btn sm" data-act="speechget" data-v="${esc(m.lang)}">${ic("down")}Скачать</button>`}</div></div>`).join("")}</div></section>`;
       clearTimeout(S.speechTimer);
       if (r.models.some(m => m.state === "downloading")) S.speechTimer = setTimeout(() => { if (S.stab === "speech" && $("#sform")) drawSettings(); }, 1500);
       else if (S.speechTimer) { S.speechTimer = null; S.status = await api("/api/status"); }
     }
     if (tab === "profile") {
       const joined = me.created_at ? new Date(me.created_at * 1000).toLocaleDateString([], {day: "numeric", month: "long", year: "numeric"}) : "";
-      body.innerHTML = `<section class="set-sec"><h2>Profile</h2><p class="help">This is how you appear in PeakCut.</p>
+      body.innerHTML = `<section class="set-sec"><h2>Profile</h2><p class="help">Так вы выглядите в PeakCut.</p>
         <div class="prof">${meAvatar(me).replace('class="avatar me-pic"', 'class="avatar prof-pic"')}<div><b>${esc(me.name)}</b><span>${esc(me.email)}</span></div></div>
-        <dl class="kv"><div><dt>Email</dt><dd>${esc(me.email)} ${me.verified === false ? `<span class="pill warn">Not confirmed</span>` : `<span class="pill ok">Confirmed</span>`}</dd></div>
-          <div><dt>Sign-in method</dt><dd>${me.google ? `Google${me.has_password ? " and password" : ""}` : "Email and password"}</dd></div>
-          <div><dt>Account type</dt><dd>${me.is_admin ? "Admin" : "Standard"}</dd></div>
-          ${joined ? `<div><dt>Member since</dt><dd>${joined}</dd></div>` : ""}</dl>
+        <dl class="kv"><div><dt>Почта</dt><dd>${esc(me.email)} ${me.verified === false ? `<span class="pill warn">Не подтверждена</span>` : `<span class="pill ok">Подтверждена</span>`}</dd></div>
+          <div><dt>Способ входа</dt><dd>${me.google ? `Google${me.has_password ? " и пароль" : ""}` : "Почта и пароль"}</dd></div>
+          <div><dt>Тип аккаунта</dt><dd>${me.is_admin ? "Администратор" : "Обычный"}</dd></div>
+          ${joined ? `<div><dt>С нами с</dt><dd>${joined}</dd></div>` : ""}</dl>
         ${me.google ? `<p class="sub">Your name and picture come from your Google account.</p>` : ""}</section>`;
     }
     if (tab === "security") {
-      body.innerHTML = `<section class="set-sec"><h2>Password</h2><p class="help">${me.has_password ? "Change the password you use to sign in. Other devices are signed out when you do." : me.google ? "You sign in with Google. You can also set a password, to sign in with your email." : ""}</p>
-          <div class="fields narrow">${me.has_password ? `<label class="f">Current password<input id="pw_cur" type="password" autocomplete="current-password"></label>` : ""}
-            <label class="f">${me.has_password ? "New password" : "Password"}<input id="pw_new" type="password" autocomplete="new-password" placeholder="At least 8 characters"></label></div>
-          <div class="row" style="margin-top:14px"><button class="btn primary" data-act="pwsave">${me.has_password ? "Change password" : "Set password"}</button>
-            ${me.has_password ? `<a class="btn ghost" href="/reset">Forgot it?</a>` : ""}</div></section>
-        <section class="set-sec"><h2>Sessions</h2><p class="help">Sign out of PeakCut on this device. Changing your password signs out every other device too.</p>
-          <button class="btn" data-act="logout">${ic("signout")}Sign out</button></section>
-        <section class="set-sec"><h2 style="color:var(--bad)">Delete account</h2><p class="help">Removes your account and everything in it for good: creators, recordings, videos, clips and history.</p>
-          <button class="btn danger" data-act="delaccount">${ic("trash")}Delete my account</button></section>`;
+      body.innerHTML = `<section class="set-sec"><h2>Пароль</h2><p class="help">${me.has_password ? "Смена пароля для входа. Другие устройства при этом выйдут из аккаунта." : me.google ? "Вы входите через Google. Можно также задать пароль, чтобы входить по почте." : ""}</p>
+          <div class="fields narrow">${me.has_password ? `<label class="f">Текущий пароль<input id="pw_cur" type="password" autocomplete="current-password"></label>` : ""}
+            <label class="f">${me.has_password ? "Новый пароль" : "Пароль"}<input id="pw_new" type="password" autocomplete="new-password" placeholder="Не меньше 8 символов"></label></div>
+          <div class="row" style="margin-top:14px"><button class="btn primary" data-act="pwsave">${me.has_password ? "Сменить пароль" : "Задать пароль"}</button>
+            ${me.has_password ? `<a class="btn ghost" href="/reset">Забыли пароль?</a>` : ""}</div></section>
+        <section class="set-sec"><h2>Сеансы</h2><p class="help">Выход из PeakCut на этом устройстве. Смена пароля также завершает сеансы на других устройствах.</p>
+          <button class="btn" data-act="logout">${ic("signout")}Выйти</button></section>
+        <section class="set-sec"><h2 style="color:var(--bad)">Удаление аккаунта</h2><p class="help">Безвозвратно удаляет аккаунт и всё в нём: авторов, записи, видео, клипы и историю.</p>
+          <button class="btn danger" data-act="delaccount">${ic("trash")}Удалить аккаунт</button></section>`;
     }
     if (tab === "storage") {
       const s = S.stor = await api("/api/storage");
       const usedPct = s.total_gb ? Math.min(100, Math.max(1, 100 * (s.total_gb - s.free_gb) / s.total_gb)) : 0;
       const gb = n => `${Number(n).toLocaleString(undefined, {maximumFractionDigits: 1})} GB`;
-      body.innerHTML = `<section class="set-sec"><h2>Storage</h2><p class="help">Everything PeakCut keeps is in one folder: your videos, clips, recordings, creators and settings. You can open it, back it up, or move it to a drive with more room.</p>
-          ${s.full ? `<div class="note" style="margin:0 0 14px">${ic("warn")}<span><b>This drive is almost full, so PeakCut can't take new videos.</b> ${gb(s.free_gb)} free on ${esc(s.drive)}; it needs at least ${gb(s.min_free_gb)}. Free up space, or move the folder to another drive below.</span></div>` : ""}
-          ${s.pending ? `<div class="note" style="margin:0 0 14px">${ic("clock")}<span><b>The folder changes to ${esc(s.pending)} the next time PeakCut starts.</b> Close PeakCut and start it again. <button class="btn sm ghost" data-act="storcancel">Undo</button></span></div>` : ""}
-          <div class="stor-path"><code>${esc(s.path)}</code>${s.local ? `<button class="btn" data-act="storopen">${ic("folder")}Open folder</button>` : ""}</div>
-          <div class="stor-bar ${s.full ? "low" : ""}" role="img" aria-label="${Math.round(usedPct)}% of the drive is used"><i style="width:${usedPct}%"></i></div>
-          <div class="stor-nums"><span>PeakCut uses <b>${gb(s.used_gb)}</b></span><span><b>${gb(s.free_gb)}</b> free of ${gb(s.total_gb)} on ${esc(s.drive)}</span></div>
-          ${s.fixed ? `<p class="sub" style="margin-top:16px">This folder is set with PEAKCUT_DATA in the .env file. Change it there, or remove that line to choose it here.</p>`
-            : S.storOpen ? `<div class="stor-change"><label class="f">New folder<span class="with"><input id="stor_new" placeholder="For example D:\\PeakCut" spellcheck="false" value="${esc(S.storNew || "")}">${s.local ? `<button class="btn" type="button" data-act="storpick">Browse</button>` : ""}</span></label>
-                <label class="ck"><input type="checkbox" id="stor_move" checked>Move everything that is in the current folder there too</label>
-                <p class="sub">The change happens the next time PeakCut starts, so nothing is moved while a video is being made.</p>
-                <div class="row"><button class="btn primary" data-act="storsave">Use this folder</button><button class="btn ghost" data-act="storchange">Cancel</button></div></div>`
-            : `<div class="row" style="margin-top:16px"><button class="btn" data-act="storchange">Change folder</button></div>`}</section>`;
+      body.innerHTML = `<section class="set-sec"><h2>Storage</h2><p class="help">Всё, что хранит PeakCut, лежит в одной папке: видео, клипы, записи, авторы и настройки. Её можно открыть, скопировать в резервную копию или перенести на диск, где больше места.</p>
+          ${s.full ? `<div class="note" style="margin:0 0 14px">${ic("warn")}<span><b>Диск почти заполнен, новые видео не принимаются.</b> Свободно ${gb(s.free_gb)} на ${esc(s.drive)}; нужно хотя бы ${gb(s.min_free_gb)}. Освободите место или перенесите папку на другой диск ниже.</span></div>` : ""}
+          ${s.pending ? `<div class="note" style="margin:0 0 14px">${ic("clock")}<span><b>Папка сменится на ${esc(s.pending)} при следующем запуске PeakCut.</b> Закройте PeakCut и запустите заново. <button class="btn sm ghost" data-act="storcancel">Отменить</button></span></div>` : ""}
+          <div class="stor-path"><code>${esc(s.path)}</code>${s.local ? `<button class="btn" data-act="storopen">${ic("folder")}Открыть папку</button>` : ""}</div>
+          <div class="stor-bar ${s.full ? "low" : ""}" role="img" aria-label="Занято ${Math.round(usedPct)}% диска"><i style="width:${usedPct}%"></i></div>
+          <div class="stor-nums"><span>PeakCut занимает <b>${gb(s.used_gb)}</b></span><span>Свободно <b>${gb(s.free_gb)}</b> из ${gb(s.total_gb)} на ${esc(s.drive)}</span></div>
+          ${s.fixed ? `<p class="sub" style="margin-top:16px">Эта папка задана параметром PEAKCUT_DATA в файле .env. Меняйте её там или уберите эту строку, чтобы выбирать здесь.</p>`
+            : S.storOpen ? `<div class="stor-change"><label class="f">Новая папка<span class="with"><input id="stor_new" placeholder="Например D:\\PeakCut" spellcheck="false" value="${esc(S.storNew || "")}">${s.local ? `<button class="btn" type="button" data-act="storpick">Обзор</button>` : ""}</span></label>
+                <label class="ck"><input type="checkbox" id="stor_move" checked>Перенести туда всё, что лежит в текущей папке</label>
+                <p class="sub">Изменение применится при следующем запуске PeakCut, поэтому ничего не сломается во время работы над видео.</p>
+                <div class="row"><button class="btn primary" data-act="storsave">Использовать эту папку</button><button class="btn ghost" data-act="storchange">Отмена</button></div></div>`
+            : `<div class="row" style="margin-top:16px"><button class="btn" data-act="storchange">Сменить папку</button></div>`}</section>`;
     }
     if (tab === "apps") {
       const conn = S.accounts || [];
       const app = (key, name, logo, bg, desc, action, list) => `<div class="appcard"><span class="applogo" style="background:${bg}">${logo}</span>
           <div class="apptx"><b>${name}</b><span>${desc}</span>${list}</div><div class="appact">${action}</div></div>`;
       const mine = plat => conn.filter(a => (a.platform || a.label || "").toLowerCase().includes(plat));
-      const listOf = arr => arr.length ? `<div class="applist">${arr.map(a => `<div><span class="pill ok">Connected</span><b>${esc(a.name)}</b><span class="sub">${esc(a.detail || "")}</span>
-          <button class="btn sm ghost" data-act="accremove" data-id="${esc(a.id)}">Disconnect</button></div>`).join("")}</div>` : "";
+      const listOf = arr => arr.length ? `<div class="applist">${arr.map(a => `<div><span class="pill ok">Подключено</span><b>${esc(a.name)}</b><span class="sub">${esc(a.detail || "")}</span>
+          <button class="btn sm ghost" data-act="accremove" data-id="${esc(a.id)}">Отключить</button></div>`).join("")}</div>` : "";
       const yt = '<svg viewBox="0 0 24 24"><path fill="#fff" d="M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.5A3.02 3.02 0 0 0 .5 6.19C0 8.07 0 12 0 12s0 3.93.5 5.81a3.02 3.02 0 0 0 2.12 2.14c1.88.5 9.38.5 9.38.5s7.5 0 9.38-.5a3.02 3.02 0 0 0 2.12-2.14C24 15.93 24 12 24 12s0-3.93-.5-5.81zM9.55 15.57V8.43L15.82 12l-6.27 3.57z"/></svg>';
       const ig = '<svg viewBox="0 0 24 24"><path fill="#fff" d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23a3.7 3.7 0 0 1-.9 1.38c-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zM12 5.84a6.16 6.16 0 1 0 0 12.32 6.16 6.16 0 0 0 0-12.32zm0 10.16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.85a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88z"/></svg>';
       const tt = '<svg viewBox="0 0 24 24"><path fill="#fff" d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64c.3 0 .59.04.86.13v-3.5a6.37 6.37 0 0 0-.86-.05A6.34 6.34 0 0 0 3.15 15.7a6.34 6.34 0 0 0 10.86 4.43 6.3 6.3 0 0 0 1.81-4.43V8.73a8.2 8.2 0 0 0 4.77 1.52V6.8a4.85 4.85 0 0 1-1-.11z"/></svg>';
@@ -2404,7 +2405,7 @@ document.addEventListener("click", async e => {
     if (a === "openclip") return openClip(d.j, d.c);
     if (a === "newcreator") {
       const dlg = $("#formdlg");
-      dlg.innerHTML = `<form method="dialog" class="dlg"><h2>New creator</h2><p class="help">Each creator gets their own workspace, folder, settings and accounts.</p>
+      dlg.innerHTML = `<form method="dialog" class="dlg"><h2>Новый автор</h2><p class="help">У каждого автора своё место: папка, настройки и аккаунты.</p>
         <label class="f">Channel link<input id="nc_chan" placeholder="https://www.youtube.com/@name, twitch.tv/name or kick.com/name" autofocus></label>
         <div id="nc_prev"></div>
         <label class="f">Name<input id="nc_name" placeholder="Filled in from the channel, or type one" required></label>
@@ -2611,7 +2612,7 @@ $("#main").addEventListener("scroll", () => $(".topbar").classList.toggle("stuck
   { const [v, tab] = location.pathname.startsWith("/app/") ? fromPath(location.pathname) : ["overview", "clips"]; go(v, tab, true); remember(S.view, S.ctab, "replace"); }
   try {  // a link pasted on the home page before signing up
     const link = sessionStorage.getItem("peakcut_link");
-    if (link) { sessionStorage.removeItem("peakcut_link"); go("overview"); $("#url").value = link; onLink($("#url")); $("#url").focus(); toast("Your link is ready. Press Make clips.", "ok"); }
+    if (link) { sessionStorage.removeItem("peakcut_link"); go("overview"); $("#url").value = link; onLink($("#url")); $("#url").focus(); toast("Ссылка готова. Нажмите «Сделать клипы».", "ok"); }
   } catch {}
   loop();
   if (S.status.tour && !$("#formdlg").open) setTimeout(startTour, 500);   // once, the first time someone signs in

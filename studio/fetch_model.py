@@ -27,9 +27,19 @@ MODELS = {
            "Parakeet TDT 0.6b v2 by NVIDIA (CC-BY-4.0)", ""),
     "ar": ("Arabic", config.ASR_MODEL_AR, config.ASR_MODEL_AR_URL, 107,
            "FastConformer Arabic by NVIDIA (CC-BY-4.0)", config.ASR_MODEL_AR_SHA256),
+    "ru": ("Russian", config.ASR_MODEL_RU, config.ASR_MODEL_RU_URL, 231,
+           "GigaAM v2 by Sber (MIT)", ""),
 }
 DEFAULT = "en"
 WAIT = 60   # seconds of silence from the connection before giving up, so a stalled download cannot hang everything
+
+# How many mel channels each model's front end was trained on: GigaAM (Russian) asks for 64, the rest for 80.
+FEATURES = {"ru": 64}
+
+
+def feature_dim(lang: str = DEFAULT) -> int:
+    return FEATURES.get(lang, 80)
+
 
 _locks = {lang: threading.Lock() for lang in MODELS}
 state = {lang: {"doing": False, "percent": 0, "error": ""} for lang in MODELS}

@@ -1,4 +1,4 @@
-"""Two things people hit: captions in another language drawn on top of each other, and one clip that hangs
+﻿"""Two things people hit: captions in another language drawn on top of each other, and one clip that hangs
 keeping the whole video "in progress". Runs against the code directly, with its own empty data folder."""
 import os, re, sys, tempfile, threading, time
 os.environ["PEAKCUT_DATA"] = tempfile.mkdtemp(prefix="pc-stuck-"); os.environ["DATABASE_URL"] = ""; os.environ["PEAKCUT_CLIP_MINUTES"] = "0.03"
@@ -21,7 +21,7 @@ def events(ass):
     return out
 
 # ---- letters the caption fonts do not have
-check("Russian-style letters are spelled in Roman letters", roman.to_roman("Привет, Москва"), "Privet, Moskva")
+check("Russian letters are drawn as they are: the caption fonts have them", (roman.to_roman("Привет, Москва"), roman.drawable("Привет")), ("Привет, Москва", True))
 check("Greek too", roman.to_roman("Ελλάδα"), "Ellada")
 check("Korean too", roman.to_roman("안녕하세요"), "annyeonghaseyo")
 check("accented Latin letters are left alone and can be drawn", (roman.to_roman("niño été"), roman.drawable("niño été")), ("niño été", True))

@@ -21,7 +21,12 @@ STYLES = {
 }
 HOOK = {"font": "Poppins ExtraBold", "size": 96, "ink": "14100E", "box": "FFFFFF", "pad_x": 36, "pad_y": 22, "radius": 26,
         "max_w": 900}
-FONT_FILES = {"Poppins ExtraBold": "Poppins-ExtraBold.ttf", "Anton": "Anton-Regular.ttf", "Archivo Black": "ArchivoBlack-Regular.ttf"}
+FONT_FILES = {"Poppins ExtraBold": "Poppins-ExtraBold.ttf", "Anton": "Anton-Regular.ttf",
+              "Archivo Black": "ArchivoBlack-Regular.ttf", "Montserrat ExtraBold": "Montserrat-ExtraBold.ttf",
+              "Russo One": "RussoOne-Regular.ttf"}
+# The same look in a font that has Cyrillic: Russian captions are drawn, not spelled out in Latin letters.
+RU_FONT = {"Poppins ExtraBold": "Montserrat ExtraBold", "Anton": "Russo One", "Archivo Black": "Montserrat ExtraBold"}
+CYRILLIC = re.compile(r"[\u0400-\u04FF]")
 CAP_MAX_W = 960   # captions never run wider than this, whatever is said
 
 
@@ -96,7 +101,7 @@ def _clean(text):
 
 
 def _key(word):
-    return re.sub(r"[^a-z0-9']", "", word.lower())
+    return re.sub(r"[^0-9a-zа-яё']", "", word.lower())
 
 
 def _groups(words, per):
@@ -132,9 +137,9 @@ def geometry(src_w, src_h, layout):
     return layout, fg_h, max(230, top - 190), min(1640, top + fg_h + 180)
 
 
-def _hook_events(hook, dur, y):
+def _hook_events(hook, dur, y, font=None):
     """The heading: dark text in a white rounded box that fits it, on one line or two balanced ones."""
-    f, size = _Font.get(HOOK["font"]), HOOK["size"]
+    f, size = _Font.get(font or HOOK["font"]), HOOK["size"]
     words = hook.split()
     if not words:
         return []
@@ -167,6 +172,10 @@ def build_ass(words, start, end, hook, style_name, highlight, hook_y, cap_y) -> 
     st = STYLES.get(style_name, STYLES["bounce"])
     words = [dict(w, s=w["s"] - CAPTION_LEAD, e=w["e"] - CAPTION_LEAD) for w in words]
     strong = {_key(h) for h in highlight if _key(h)}
+    # Russian speech: the caption and hook fonts are swapped for ones that have Cyrillic letters.
+    russian = any(CYRILLIC.search(w["w"]) for w in words) or bool(CYRILLIC.search(hook or ""))
+    cap_font = RU_FONT.get(st["font"], st["font"]) if russian else st["font"]
+    hook_font = RU_FONT.get(HOOK["font"], HOOK["font"]) if russian else HOOK["font"]
     head = f"""[Script Info]
 ScriptType: v4.00+
 PlayResX: {W}
@@ -176,15 +185,15 @@ ScaledBorderAndShadow: yes
 
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-Style: Cap,{st['font']},{st['size']},&H00{st['base']},&H00{st['base']},&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,{st['outline']},0,5,0,0,0,1
-Style: Hook,{HOOK['font']},{HOOK['size']},&H00{HOOK['ink']},&H00{HOOK['ink']},&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,0,0,5,0,0,0,1
+Style: Cap,{cap_font},{st['size']},&H00{st['base']},&H00{st['base']},&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,{st['outline']},0,5,0,0,0,1
+Style: Hook,{hook_font},{HOOK['size']},&H00{HOOK['ink']},&H00{HOOK['ink']},&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,0,0,5,0,0,0,1
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 """
     dur = end - start
-    ev = _hook_events(_clean(hook), dur, hook_y)
-    f = _Font.get(st["font"])
+    ev = _hook_events(_clean(hook), dur, hook_y, hook_font)
+    f = _Font.get(cap_font)
     inside = [dict(w, w=_clean(w["w"])) for w in words if w["s"] >= start - 0.05 and w["s"] < end]
     inside = sorted((w for w in inside if w["w"]), key=lambda w: w["s"])
     for i, w in enumerate(inside[:-1]):
